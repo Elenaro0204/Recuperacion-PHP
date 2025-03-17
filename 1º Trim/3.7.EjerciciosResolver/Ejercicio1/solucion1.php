@@ -20,5 +20,7 @@ $volumenRedondeado = round($volumen);
 
     <p>El volumen del cono es: <?= $volumen?> m cúbicos</p>
     <p>Redondeado es: <?= $volumenRedondeado?> m cúbicos</p>
+
+    <a href="Ejercicio1.php">Volver al formulario</a>  <!-- Link para volver al formulario -->
 </body>
 </html>
