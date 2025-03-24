@@ -5,6 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ejercicio 5</title>
+    <style>
+        body {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        table {
+            margin: 0 auto;
+            width: 50%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -17,24 +37,79 @@
         introducidos se mostrará el tiempo total en horas y minutos que se tardará en llenar el cilindro.
     </p>
 
-    <form action="solucion5.php" method="post">
-        <label for="diametro">Diámetro del cilindro:</label>
-        <input type="number" id="diametro" name="diametro" min="1" required>
+    <?php
+    if (isset($_REQUEST['diametro']) && isset($_REQUEST['altura']) && isset($_REQUEST['caudal'])) {
+        // Datos introducidos por el usuario
+        $diametro = $_REQUEST['diametro'];
+        $altura = $_REQUEST['altura'];
+        $caudal = $_REQUEST['caudal'];
 
-        <br>
+        $radio = $diametro / 2;
 
-        <label for="altura">Altura del cilindro:</label>
-        <input type="number" id="altura" name="altura" min="1" required>
+        // Calcular del volumen del cilindro en litros
+        // La fórmula es V = pi * r^2 * h (en metros cúbicos), y luego convertimos a litros (1 m³ = 1000 litros)
+        $volumen = pi() * pow($radio, 2) * $altura * 1000;  // volumen en litros
 
-        <br>
+        // Calcular el tiempo en minutos
+        $tiempo_minutos = $volumen / $caudal;
 
-        <label for="caudal">Caudal de aceite (litros/min):</label>
-        <input type="number" id="caudal" name="caudal" min="1" required>
+        // Convertir el tiempo de minutos a horas y minutos
+        $horas = floor($tiempo_minutos / 60);
+        $minutos = round($tiempo_minutos % 60);
 
-        <br>
+    ?>
+        <table>
+            <caption>Datos</caption>
+            <tr>
+                <th>Diámetro</th>
+                <td><?= $diametro ?> m</td>
+            </tr>
+            <tr>
+                <th>Altura</th>
+                <td><?= $altura ?> m</td>
+            </tr>
+            <tr>
+                <th>Caudal</th>
+                <td><?= $caudal ?> m/s</td>
+            </tr>
+            <tr>
+                <th>Volumen</th>
+                <td><?= round($volumen, 2) ?> m cúbicos</td>
+            </tr>
+            <tr>
+                <th>Tiempo (hh y mm)</th>
+                <td>
+                    <?= $horas ?> hrs.
+                    <?= $minutos ?> min.
+                </td>
+            </tr>
+        </table>
+    <?php
+    } else {
+    ?>
+        <!-- <form action="solucion5.php" method="post"> -->
+        <form action="" method="post">
+            <label for="diametro">Diámetro del cilindro:</label>
+            <input type="number" id="diametro" name="diametro" min="1" step="0.01" required>
 
-        <button type="submit">Calcular tiempo</button>
-    </form>
+            <br>
+
+            <label for="altura">Altura del cilindro:</label>
+            <input type="number" id="altura" name="altura" min="1" step="0.01" required>
+
+            <br>
+
+            <label for="caudal">Caudal de aceite (litros/min):</label>
+            <input type="number" id="caudal" name="caudal" min="1" step="0.01" required>
+
+            <br>
+
+            <button type="submit">Calcular tiempo</button>
+        </form>
+    <?php
+    }
+    ?>
+
 </body>
 
 </html>

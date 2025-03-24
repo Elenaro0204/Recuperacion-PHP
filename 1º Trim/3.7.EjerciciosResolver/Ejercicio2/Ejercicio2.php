@@ -19,13 +19,21 @@ $combinacion = array();
 
     <form action="solucion2.php" method="post">
         <label for="combinacion">Combinación:</label>
+        <!-- Forma Basica
+        <input type="number" name="combinacion[1]" min=1 max=49 required>
+        <input type="number" name="combinacion[2]" min=1 max=49 required>
+        <input type="number" name="combinacion[3]" min=1 max=49 required>
+        <input type="number" name="combinacion[4]" min=1 max=49 required>
+        <input type="number" name="combinacion[5]" min=1 max=49 required>
+        <input type="number" name="combinacion[6]" min=1 max=49 required> -->
         <?php
         for ($i = 0; $i < 6; $i++) {
         ?>
-            <input type="number" name="combinacion[<?= $i ?>]" min=1 max=49 required>';
+            <input type="number" name="combinacion[<?= $i ?>]" min=1 max=49 required>
         <?php
         }
-        ?> <label for="serie">Serie:</label>
+        ?> 
+        <label for="serie">Serie:</label>
         <input type="text" id="serie" name="serie" min=1 max=999 required>
         <button type="submit">Enviar</button>
     </form>
