@@ -31,7 +31,8 @@ $clickedCell = isset($_GET['cell']) ? (int)$_GET['cell'] : -1;
             width: 50px;
             height: 50px;
         }
-        .general{
+
+        .general {
             text-align: center;
         }
     </style>
@@ -43,27 +44,46 @@ $clickedCell = isset($_GET['cell']) ? (int)$_GET['cell'] : -1;
         habrá una imagen de un ojo cerrado. Cada vez que el usuario pulse un ojo, ser recargará la página con
         todos los ojos cerrados salvo el que se ha pulsado que corresponderá a un ojo abierto.</p>
 
-        <table>
-            <?php
-            for ($i = 0; $i < $rows; $i++) {
-                echo '<tr>';
-                for ($j = 0; $j < $columns; $j++) {
-                    // Calcular el índice de la celda
-                    $cellIndex = $i * $columns + $j;
+    <table>
+        <?php
+        // Forma Original Propia
+        for ($i = 0; $i < $rows; $i++) {
+            echo '<tr>';
+            for ($j = 0; $j < $columns; $j++) {
+                // Calcular el índice de la celda
+                $cellIndex = $i * $columns + $j;
 
-                    echo '<td>';
-                    echo '<a href="?cell=' . $cellIndex . '">';
+                echo '<td>';
+                echo '<a href="?cell=' . $cellIndex . '">';
 
-                    // Determinar si el ojo debe estar abierto o cerrado
-                    echo '<img src="img/' . ($cellIndex === $clickedCell ? 'ojo_abierto.jfif' : 'ojo_cerrado.jpg') . '" alt="Ojo">';
+                // Determinar si el ojo debe estar abierto o cerrado
+                echo '<img src="img/' . ($cellIndex === $clickedCell ? 'ojo_abierto.jfif' : 'ojo_cerrado.jpg') . '" alt="Ojo">';
 
-                    echo '</a>';
-                    echo '</td>';
-                }
-                echo '</tr>';
+                echo '</a>';
+                echo '</td>';
             }
-            ?>
-        </table>
+            echo '</tr>';
+        }
+
+        // Forma Óptima del Profesor
+        $contador = 0;
+        for ($i = 0; $i < $rows; $i++) {
+            echo '<tr>';
+            for ($j = 0; $j < $columns; $j++) {
+                echo '<td>';
+                echo '<a href="?cell=' . $contador . '">';
+
+                // Determinar si el ojo debe estar abierto o cerrado
+                echo '<img src="img/' . ($contador === $clickedCell ? 'ojo_abierto.jfif' : 'ojo_cerrado.jpg') . '" alt="Ojo">';
+
+                echo '</a>';
+                echo '</td>';
+                $contador++;
+            }
+            echo '</tr>';
+        }
+        ?>
+    </table>
 
 
 </body>
