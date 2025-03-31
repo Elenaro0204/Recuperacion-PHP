@@ -201,3 +201,160 @@ do {
 sentencias
 } while (expresion)
 ```
+
+---
+
+## Tema 5
+
+### Tipos de arrays
+
+#### Arrays clásicos de tamaño variable
+
+```php
+$v[0] = 16; $v[1] = 15; $v[2] = 17; $v[3] = 15; $v[4] = 16;
+$v = array(16, 15, 17, 15, 16);
+$color = ["verde", "amarillo", "rojo", "azul", "blanco", "gris"];
+$v[]=14; Añade el valor en la última posición
+echo $v[4]; acceso al valor del índice 4 del array
+$v[]="nuevo valor"; //añade un valor al final del array
+```
+
+Como paso un array como parámetro a otra página.
+Solo se puede pasar texto, así que hay que convertir el array en una cadena antes de enviarlo y obtener el array a partir de la cadena en la página de destino.
+
+- Opción 1:
+  `$v = explode("caracter", $texto);` separa el texto por cada ‘carácter’ encontrado y lo almacena en el array
+  `$texto = implode ("caracter", $v);` une los elementos del array en una cadena, con el ‘carácter’
+  indicado entre los elementos del array
+- Opción 2:
+  `$cadena= serialize($array);` `$cadena` almacena el array como texto (para usar en BD o sesiones)
+  `$array= unserialize($cadena);` se recupera el array u objeto original serializado en `$cadena`
+  Nota: con arrays asociativos la serialización se corrompe al ser enviada, así que hay que usar la
+  función en combinación con otra de la siguiente forma:
+
+```php
+$cadena=base64_encode(serialize($array));
+$array=unserialize(base64_decode($cadena));
+```
+
+#### Arrays clásicos de tamaño fijo:
+
+`$v = new SplFixedArray(10);` (los valores no inicializados son null)
+
+#### Arrays asociativos:
+
+```php
+$edades['Rosa']=16; $edades['Ignacio']=25; $edades['Daniel']=17; $edades['Rubén']=18;
+$edades = array("Rosa" => 16, "Ignacio" => 25, "Daniel" => 17, "Rubén" => 18);
+$edades = ["Rosa" => 16, "Ignacio" => 25, "Daniel" => 17, "Rubén" => 18];
+echo "Daniel:  ", $edades['Daniel'];
+```
+
+Paso en un formulario de varios valores como un array
+En el formulario:
+
+```html
+<input type="”text”" name="”nombreArray[índice1]”" />
+<input type="”text”" name="”nombreArray[índice2]”" />
+```
+
+En página de destino.
+
+```php
+$nombreArray=$_GET[‘nombreArray’];
+```
+
+#### Arrays bidimensionales:
+
+```php
+$v = array(array(5, 6, 2), array(4, 7, 1, 6, 3), array(5, 9));
+$v = [[5, 6, 2], [4, 7, 1, 6, 3], [5, 9]];
+$persona = array (
+array( "nombre" =>"Rosa", "estatura" => 168, "sexo" =>"F"),
+array( "nombre" =>"Ignacio", "estatura" => 175, "sexo" =>"M"),
+array( "nombre" =>"Daniel", "estatura" => 172, "sexo" =>"M"),
+array( "nombre" =>"Rubén", "estatura" => 182, "sexo" =>"M")
+);
+$persona = [['ana'=>'pepe', 'julia'=>'juan'],
+['luisa'=>'adrian'],
+['eva'=>'wally', 'sandra'=>'antonio','maria'=>'jose']];
+$persona = ['ancianos'=> ['ana'=>'pepe', 'julia'=>'juan'], 'mayores'=> ['luisa'=>'adrian'],
+'jovenes'=> ['eva'=>'wally', 'sandra'=>'antonio','maria'=>'jose']];
+```
+
+### Funciones principales de Arrays:
+
+- `count($array)`: devuelve la dimensión de un array
+- `array_key_last($array)`: devuelve el índice del último elemento añadido al array asociativo o clásico
+- `in_array($buscado, $array)`: devuelve booleano si el elemento buscado está en array
+- `array_key_exists($buscado,$array)`: devuelve booleano si elemento buscado en índices del array asociativo
+- `array_search($buscado, $array)`: devuelve el índice (si es asociativo será una cadena) del elemento buscado en array, si no está devuelve falso.
+- `array_rand($array, $num)`: devuelve un array de tantos elementos como indique `$num`, con valores aleatorios elegidos de entre las claves/índices de `$array` (sea asociativo o no)
+- `array_fill(índice_comienzo, número_elementos, valor)`: crea e inicializa un array, comenzando en índice_comienzo, con número_elementos y con el valor indicado en todas las posiciones.
+- `array_slice($array, posición_inicio, número_elementos)`: devuelve del array, solo con los elementos indicados: desde la posición de inicio (si es negativo se cuenta desde el final hacia atrás) y la cantidad indicada en número de elementos (si no se indica, se coge hasta el último).
+
+### Formas de recorrer un array
+
+#### Recorrido arrays con foreach
+
+```php
+//para arrays normales
+foreach ($array as $elemento) {
+echo $elemento;
+
+}
+//para arrays asociativos
+foreach ($array as $indice=>$valor) {
+echo $valor;
+}
+```
+
+#### Recorrido array bidimensional clásico
+
+```php
+for($i=0; $i<count($m); $i++){
+for ($j=0; $j<count($m[$i]); $j++){
+echo $m[$i][$j],' - ';
+}
+echo '<br>';
+}
+```
+
+#### Recorrido array bidimensional asociativo (en 1 dimensión)
+
+##### Asociativo en la 1ª dimensión
+
+```php
+foreach ($alumno as $nombre=>$notas){
+$suma=0;
+for ($i=0; $i<count($notas); $i++){
+$suma+=$notas[$i];
+}
+$media=$suma/count($notas);
+echo “Alumno: $nombre – Nota media: $media <br>”;
+}
+```
+
+##### Asociativo en la 2ª dimensión
+
+```php
+for ($i=0; $i<count($persona); $i++){
+foreach ($persona[$i] as $m=>$h){
+echo $m, '  casada con  ',$h,' ; ';
+}
+echo '<br>';
+}
+```
+
+##### Recorrido array bidimensional asociativo (en las 2 dimensiones)
+
+```php
+foreach($persona as $ciudad=>$filaPersonas){
+echo “Parejas de la ciudad $ciudad ”;
+foreach ($filaPersonas as $m=>$h){
+echo $m, '  casada con  ',$h,' ; ';
+}
+
+echo '<br>';
+}
+```
