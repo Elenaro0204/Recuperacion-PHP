@@ -42,13 +42,19 @@
     // Definimos las dimensiones de la tabla
     $filas = 10;
     $columnas = 10;
+    $totalCeldas = $filas * $columnas; // Definir el total de celdas
 
     // Inicializa el array de ojos (todos cerrados)
     if (isset($_GET['ojos'])) {
-        // Recogemos el array de ojos del GET y lo convertimos en un array
+        // Convertimos la cadena de la URL en un array
         $ojos = explode(',', $_GET['ojos']);
+
+        // Asegurarnos de que el array tiene el tamaño correcto
+        if (count($ojos) != $totalCeldas) {
+            $ojos = array_fill(0, $totalCeldas, 0);
+        }
     } else {
-        // Inicializa el array de ojos
+        // Si no hay valores en la URL, inicializar todos a cerrados
         $ojos = array_fill(0, $totalCeldas, 0);
     }
 
@@ -56,13 +62,14 @@
     if (isset($_GET['seleccion'])) {
         $sel = (int)$_GET['seleccion'];
 
-        // Cambiar el estado del ojo (abierto / cerrado)
-        if (isset($ojos[$sel])) {
+        // Asegurar que la selección está dentro de los límites
+        if ($sel >= 0 && $sel < $totalCeldas) {
+            // Cambiar el estado del ojo (abierto/cerrado)
             $ojos[$sel] = ($ojos[$sel] == 0) ? 1 : 0;
         }
     }
 
-    // Convertimos el array a cadena para pasarlo en la URL
+    // Convertimos el array de nuevo en cadena para la URL
     $cadena = implode(',', $ojos);
     ?>
 

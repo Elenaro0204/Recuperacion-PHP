@@ -28,16 +28,16 @@
 
     // Recuperar pedidos anteriores si existen
     $pedidos = [];
-    if (isset($_POST['pedidos_guardados'])) {
-        $pedidos = unserialize($_POST['pedidos_guardados']);
+    if (isset($_REQUEST['pedidos_guardados'])) {
+        $pedidos = unserialize($_REQUEST['pedidos_guardados']);
     }
 
     // Incrementar número de pedido
     $numpedido = count($pedidos) + 1;
 
     // Guardar el nuevo pedido si se envió el formulario
-    if (isset($_POST['comida'])) {
-        $pedidos["Pedido " . $numpedido] = $_POST['comida'];
+    if (isset($_REQUEST['comida'])) {
+        $pedidos["Pedido " . $numpedido] = $_REQUEST['comida'];
     }
     ?>
 
