@@ -41,7 +41,7 @@
             echo "<tr><th>Nombre</th><th>Edad</th><th>Experiencia</th><th>Correo</th></tr>";
 
             foreach ($aspirantes as $nombre => $datos) {
-                $clase = ($datos['edad'] > 30) ? 'mayor30' : '';
+                $clase = ($datos['edad'] >= 30) ? 'mayor30' : '';
                 echo "<tr>";
                 echo "<td class='$clase'>$nombre</td>";
                 echo "<td>{$datos['edad']}</td>";

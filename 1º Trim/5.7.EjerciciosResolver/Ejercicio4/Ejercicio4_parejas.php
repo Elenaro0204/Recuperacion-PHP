@@ -34,6 +34,7 @@ if ($seleccionado) {
         }
 
         if (!empty($posibles)) {
+            // No es necesario usar el array_rand porque esto solo es para arrays asociativos, se puede hacer con un random basico
             $parejaElegida = $posibles[array_rand($posibles)];
         }
     }

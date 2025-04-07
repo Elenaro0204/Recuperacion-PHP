@@ -61,7 +61,9 @@
         ];
     } else {
         $personas = unserialize(base64_decode($_REQUEST['personas']));
-        $personas[] = $_REQUEST['nueva'];
+        if (isset($_REQUEST['nueva'])) {
+            $personas[] = $_REQUEST['nueva'];
+        }
     }
     ?>
     <div style="width: 500px; margin:auto; ">
@@ -71,22 +73,25 @@
                 <legend>Añadir personas a la Base de datos</legend>
                 <br>
                 <strong>NOMBRE</strong>
-                <input type="text" name="nueva[nombre]"> <br>
+                <input type="text" name="nueva[nombre]"> 
+                <br>
                 <hr>
                 <strong>SEXO</strong>
                 <input type="radio" name="nueva[sexo]" value="h">Hombre
-                <input type="radio" name="nueva[sexo]" value="m">Mujer <br>
+                <input type="radio" name="nueva[sexo]" value="m">Mujer 
+                <br>
                 <hr>
                 <strong>ORIENTACIÓN</strong>
                 <input type="radio" name="nueva[orientacion]" value="het">Heterosexual
                 <input type="radio" name="nueva[orientacion]" value="hom">Homosexual
-                <input type="radio" name="nueva[orientacion]" value="bis">Bisexual<br>
+                <input type="radio" name="nueva[orientacion]" value="bis">Bisexual
+                <br>
                 <hr>
                 <input type="hidden" name="personas" value=<?= base64_encode(serialize($personas)) ?>>
                 <input type="submit" value="AÑADIR PERSONA">
                 <br><br>
             </fieldset>
-        </form> 
+        </form>
         <br><br>
         <form action="Ejercicio4_tabla.php" method="post">
             <fieldset>

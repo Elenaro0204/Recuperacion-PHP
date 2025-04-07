@@ -23,21 +23,23 @@
         <h1>Inscríbete a este puesto de trabajo</h1>
 
         <?php
-        // Si vienen datos anteriores, los recuperamos
-        $aspirantes = [];
-
-        if (isset($_POST['aspirantes_serializados'])) {
-            $aspirantes = unserialize($_POST['aspirantes_serializados']);
+        // Si vienen datos anteriores, se recuperan
+        if (isset($_REQUEST['aspirantes_serializados'])) {
+            $aspirantes = unserialize($_REQUEST['aspirantes_serializados']);
+        }else{
+            $aspirantes = [];
         }
 
-        // Si se ha enviado un nuevo aspirante, lo añadimos al array
-        if (isset($_POST['nombre']) && isset($_POST['edad']) && isset($_POST['experiencia']) && isset($_POST['correo'])) {
-            $nombre = $_POST['nombre'];
+        // Si se ha enviado un nuevo aspirante, se añade al array
+        if (isset($_REQUEST['nombre']) && isset($_REQUEST['edad']) && isset($_REQUEST['experiencia']) && isset($_REQUEST['correo'])) {
+            $nombre = $_REQUEST['nombre'];
             $aspirantes[$nombre] = [
-                'edad' => $_POST['edad'],
-                'experiencia' => $_POST['experiencia'],
-                'correo' => $_POST['correo']
+                'edad' => $_REQUEST['edad'],
+                'experiencia' => $_REQUEST['experiencia'],
+                'correo' => $_REQUEST['correo']
             ];
+            // Muestro el array aspirantes
+            var_dump($aspirantes);
         }
         ?>
 

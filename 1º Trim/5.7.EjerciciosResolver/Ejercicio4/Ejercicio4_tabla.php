@@ -53,13 +53,6 @@
                         ?>
                     </td>
                     <td>
-                        <!-- Botón para seleccionar persona -->
-                        <form action="Ejercicio4_parejas.php" method="post" style="display:inline;">
-                            <input type="hidden" name="personas" value="<?= base64_encode(serialize($personas)) ?>">
-                            <input type="hidden" name="seleccionado" value="<?= $index ?>">
-                            <input type="submit" value="Seleccionar">
-                        </form>
-
                         <!-- Botón para eliminar persona -->
                         <form action="" method="post" style="display:inline;">
                             <input type="hidden" name="personas" value="<?= base64_encode(serialize($personas)) ?>">
