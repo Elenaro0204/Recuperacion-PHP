@@ -1,3 +1,24 @@
+<?php
+// Si vienen datos anteriores, se recuperan
+if (isset($_REQUEST['aspirantes_serializados'])) {
+    $aspirantes = unserialize($_REQUEST['aspirantes_serializados']);
+} else {
+    $aspirantes = [];
+}
+
+// Si se ha enviado un nuevo aspirante, se añade al array
+if (isset($_REQUEST['nombre']) && isset($_REQUEST['edad']) && isset($_REQUEST['experiencia']) && isset($_REQUEST['correo'])) {
+    $nombre = $_REQUEST['nombre'];
+    $aspirantes[$nombre] = [
+        'edad' => $_REQUEST['edad'],
+        'experiencia' => $_REQUEST['experiencia'],
+        'correo' => $_REQUEST['correo']
+    ];
+    // Muestro el array aspirantes
+    var_dump($aspirantes);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,27 +42,6 @@
 
     <div style="width: 500px; margin:auto; ">
         <h1>Inscríbete a este puesto de trabajo</h1>
-
-        <?php
-        // Si vienen datos anteriores, se recuperan
-        if (isset($_REQUEST['aspirantes_serializados'])) {
-            $aspirantes = unserialize($_REQUEST['aspirantes_serializados']);
-        }else{
-            $aspirantes = [];
-        }
-
-        // Si se ha enviado un nuevo aspirante, se añade al array
-        if (isset($_REQUEST['nombre']) && isset($_REQUEST['edad']) && isset($_REQUEST['experiencia']) && isset($_REQUEST['correo'])) {
-            $nombre = $_REQUEST['nombre'];
-            $aspirantes[$nombre] = [
-                'edad' => $_REQUEST['edad'],
-                'experiencia' => $_REQUEST['experiencia'],
-                'correo' => $_REQUEST['correo']
-            ];
-            // Muestro el array aspirantes
-            var_dump($aspirantes);
-        }
-        ?>
 
         <!-- Formulario para añadir un nuevo aspirante -->
         <form method="post" action="Ejercicio5.php">
