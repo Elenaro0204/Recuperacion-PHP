@@ -1,0 +1,4 @@
+Nombre: Juan Manuel | Sueldo: 6000 € | Debe pagar impuestos.
+Nombre: Elena | Sueldo: 3000 € | No debe pagar impuestos.
+Nombre: Maria Jose | Sueldo: 5000 € | Debe pagar impuestos.
+Nombre: Aza | Sueldo: 3001 € | Debe pagar impuestos.
