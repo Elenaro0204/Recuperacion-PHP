@@ -1,81 +1,71 @@
 <?php
-// Iniiar la sesion
 if (session_status() == PHP_SESSION_NONE) session_start();
 
-// Si ya hay sesión activa, redirigir a la página principal\
+// Comprobamos si ya hay una sesión iniciada
 if (isset($_SESSION['usuario'])) {
-    header("Location: index.php");
+    header("Location: principal.php");
 }
 
-// Si se ha enviado el formulario de login
-$mensaje = "";
-if (isset($_REQUEST['inicio']) && isset($_REQUEST['usuario']) && isset($_REQUEST['contrasena'])) {
-    $usuario = $_REQUEST['usuario'] ?? '';
-    $contrasena = $_REQUEST['contrasena'] ?? '';
-    $recordar = isset($_REQUEST['recordar']);
-
-    // Leer usuarios del fichero
-    $lineas = file('usuarios.dat', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    $autenticado = false;
-
-    foreach ($lineas as $linea) {
-        list($u, $c) = explode('|', $linea);
-        if ($usuario === $u && $contrasena === $c) {
-            $autenticado = true;
+// Función para verificar el usuario y contraseña en el fichero 'usuarios.dat'
+function verificarCredenciales($usuario, $contrasena)
+{
+    $usuarios = file("usuarios.dat", FILE_IGNORE_NEW_LINES);
+    foreach ($usuarios as $linea) {
+        list($user, $pass) = explode(":", $linea); // CORREGIDO: antes ponía ","
+        if ($user === $usuario && password_verify($contrasena, trim($pass))) {
+            return true;
         }
     }
+    return false;
+}
 
-    if ($autenticado) {
+// Procesar el inicio de sesión
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $usuario = $_REQUEST['usuario'];
+    $contrasena = $_REQUEST['contrasena'];
+
+    if (verificarCredenciales($usuario, $contrasena)) {
         $_SESSION['usuario'] = $usuario;
 
-        if ($recordar) {
-            setcookie('usuario', $usuario, time() + 30 * 24 * 60 * 60);
-            setcookie('contrasena', $contrasena, time() + 30 * 24 * 60 * 60);
+        // Recordar contraseña en cookie por un mes si está marcado
+        if (isset($_REQUEST['recordar']) && $_REQUEST['recordar'] == 'recordar') {
+            setcookie("usuario", $usuario, time() + 30 * 24 * 3600); // Cookie válida por 30 días
+            setcookie("contrasena", $contrasena, time() + 30 * 24 * 3600); // Cookie válida por 30 días
         } else {
-            setcookie('usuario', '', time() - 3600);
-            setcookie('contrasena', '', time() - 3600);
+            setcookie("usuario", "", time() - 3600); // Eliminar cookie de usuario
+            setcookie("contrasena", "", time() - 3600); // Eliminar cookie de contraseña
         }
 
         header("Location: index.php");
-        exit;
     } else {
-        $mensaje = "Usuario o contraseña incorrectos.";
+        $error = "Usuario o contraseña incorrectos.";
     }
 }
-
-$usuarioGuardado = $_COOKIE['usuario'] ?? '';
-$contrasenaGuardada = $_COOKIE['contrasena'] ?? '';
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulacro - Login</title>
+    <title>Login</title>
 </head>
 
 <body>
-    <h1>Iniciar sesión</h1>
-    
-    <form method="post">
-        <label>Usuario:</label>
-        <input type="text" name="usuario" value="<?= htmlspecialchars($usuarioGuardado) ?>" required><br>
+    <h2>Login</h2>
+    <?php if (isset($error)) echo "<p>$error</p>"; ?>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <label for="usuario">Usuario:</label><br>
+        <input type="text" name="usuario" value="<?php echo isset($_COOKIE['usuario']) ? $_COOKIE['usuario'] : ''; ?>"><br>
         
-        <label>Contraseña:</label>
-        <input type="password" name="contrasena" value="<?= htmlspecialchars($contrasenaGuardada) ?>" required><br>
-        
-        <label><input type="checkbox" name="recordar" <?= $usuarioGuardado ? 'checked' : '' ?>> Recordar contraseña</label><br><br>
-        
-        <input type="submit" name="inicio" value="Iniciar sesión">
-    </form>
+        <label for="contrasena">Contraseña:</label><br>
+        <input type="password" name="contrasena"><br>
 
-    <p style="color:red;"><?= $mensaje ?></p>
-
-    <form action="registro.php">
-        <input type="submit" value="Registrarse">
+        <input type="checkbox" name="recordar" value="recordar"> Recordar contraseña<br>
+        <input type="submit" value="Iniciar sesión">
     </form>
+    <br>
+    <a href="registro.php">Registrarse</a>
 </body>
 
 </html>

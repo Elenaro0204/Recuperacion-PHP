@@ -16,6 +16,7 @@
         getter, pues su contenido se actualiza automaticamente), fecha y estado.</p>
 
     <?php
+    require_once 'Factura.php';
 
     // Crear una nueva factura
     $factura = new Factura("2025-05-12");
