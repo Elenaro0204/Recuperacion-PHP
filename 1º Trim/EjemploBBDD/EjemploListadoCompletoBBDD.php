@@ -4,13 +4,13 @@
 
 <body>
     <h2>
-        Base de datos <u>banco</u><br>
+        Base de datos <a href="OperacionesTablaBBDD.php">banco</a><br>
         Tabla <u>cliente</u><br>
     </h2>
     <?php
     // Conexión a la base de datos  
     try {
-        $conexion = new PDO("mysql:host=localhost;dbname=banco;charset=utf8", "root", "root");
+        $conexion = new PDO("mysql:host=localhost;dbname=banco;charset=utf8", "root", "toor");
     } catch (PDOException $e) {
         echo "No se ha podido establecer conexión con el servidor de bases de datos.<br>";
 
@@ -40,7 +40,7 @@
     </table>
     <br>
     Número de clientes: <?= $consulta->rowCount() ?>
-    <?php $conexion = null; ?> //cerramos la conexión a la BD
+    <?php $conexion = null; //cerramos la conexión a la BD?> 
 </body>
 
 </html>

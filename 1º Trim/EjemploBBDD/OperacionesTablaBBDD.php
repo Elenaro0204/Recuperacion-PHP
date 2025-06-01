@@ -9,7 +9,7 @@
 <body>
     <h1>Base de datos <u>banco</u></h1>
     <h2>Alta de cliente</h2>
-    <form action="altaClienteAccion.php" method="post">
+    <form action="OperacionesTablaBBDD2.php" method="post">
         DNI <input type="text" name="dni" required><br>
 
         Nombre <input type="text" name="nombre"><br>
