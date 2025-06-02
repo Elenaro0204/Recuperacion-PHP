@@ -6,6 +6,7 @@
   if ($_FILES["imagen"]["name"]!="") {
       // sube la imagen al servidor
       move_uploaded_file($_FILES["imagen"]["tmp_name"], "../View/images/" . $_FILES["imagen"]["name"]);
+      unlink($imagen);
       $imagen=$_FILES["imagen"]["name"];
   }
 
